@@ -483,266 +483,12 @@ def train(args, train_dataset, model, tokenizer):
                     # logger.info("Saving optimizer and scheduler states to %s", output_dir)
 
 
-                # ##save highest specificity
-                # # if results['spec'] > best_spec and results['sens'] >=0.7:
-                # if results['spec'] > best_spec:
-                #     best_spec = results['spec']
-                #     best_spec_acc = results['acc']
-                #     best_spec_sens = results['sens']
-                #     best_spec_f1 = results['f1']
-                #     # output_eval_file = os.path.join(eval_output_dir, prefix, "eval_results.txt")
-                #     output_dir_dmr = os.path.join(args.output_dir, args.dmr, "best_specificity")
-                #     if not os.path.exists(output_dir_dmr):
-                #         os.makedirs(output_dir_dmr)
-                #     output_eval_file = os.path.join(output_dir_dmr, "eval_results.txt")
-                #     with open(output_eval_file, "a") as writer:
-                #         if args.task_name[:3] == "dna":
-                #             eval_result = args.data_dir.split('/')[-1] + " "
-                #         else:
-                #             eval_result = ""
-                #         logger.info("***** Eval results *****")
-                #         # for key in sorted(result.keys()):
-                #         #     logger.info("  %s = %s", key, str(result[key]))
-                #         #     eval_result = eval_result + str(result[key])[:5] + " "
-                #         # writer.write(n + '\t' + eval_result + "\n")
-                #         for key in ['acc', 'spec', 'sens']:
-                #             logger.info("  %s = %s", key, str(results[key]))
-                #             eval_result = eval_result + str(results[key])[:5] + "\t"
-                #         writer.write(args.dmr + '\t' + eval_result + "\n")
-                #     # checkpoint_prefix = "checkpoint"
-                #     # Save model checkpoint
-                #     # output_dir = os.path.join(args.output_dir, "checkpoint-{}".format(global_step))
-                #     output_dir = os.path.join(args.output_dir, "{}".format(args.dmr), "best_specificity")
-                #     if not os.path.exists(output_dir):
-                #         os.makedirs(output_dir)
-                #     model_to_save = (
-                #         model.module if hasattr(model, "module") else model
-                #     )  # Take care of distributed/parallel training
-                #     model_to_save.save_pretrained(output_dir)
-                #     tokenizer.save_pretrained(output_dir)
-                #     # logger.info("Saving model checkpoint to %s", output_dir)
-                #     # _rotate_checkpoints(args, checkpoint_prefix)
-                #     if args.task_name != "dna690":
-                #         torch.save(args, os.path.join(output_dir, "training_args.bin"))
-                #         # torch.save(optimizer.state_dict(), os.path.join(output_dir, "optimizer.pt"))
-                #         # torch.save(scheduler.state_dict(), os.path.join(output_dir, "scheduler.pt"))
-                #     # logger.info("Saving optimizer and scheduler states to %s", output_dir)
-                #
-                # # if results['spec'] == best_spec and results['sens'] >= best_spec_sens and results['sens'] >=0.7:
-                # elif results['spec'] == best_spec and results['sens'] >= best_spec_sens:
-                #     best_spec = results['spec']
-                #     best_spec_acc = results['acc']
-                #     best_spec_sens = results['sens']
-                #     best_spec_f1 = results['f1']
-                #     # output_eval_file = os.path.join(eval_output_dir, prefix, "eval_results.txt")
-                #     output_dir_dmr = os.path.join(args.output_dir, args.dmr, "best_specificity")
-                #     if not os.path.exists(output_dir_dmr):
-                #         os.makedirs(output_dir_dmr)
-                #     output_eval_file = os.path.join(output_dir_dmr, "eval_results.txt")
-                #     with open(output_eval_file, "a") as writer:
-                #         if args.task_name[:3] == "dna":
-                #             eval_result = args.data_dir.split('/')[-1] + " "
-                #         else:
-                #             eval_result = ""
-                #         logger.info("***** Eval results *****")
-                #         for key in ['acc', 'spec', 'sens']:
-                #             logger.info("  %s = %s", key, str(results[key]))
-                #             eval_result = eval_result + str(results[key])[:5] + "\t"
-                #         writer.write(args.dmr + '\t' + eval_result + "\n")
-                #         output_dir = os.path.join(args.output_dir, "{}".format(args.dmr), "best_specificity")
-                #         if not os.path.exists(output_dir):
-                #             os.makedirs(output_dir)
-                #         model_to_save = (
-                #             model.module if hasattr(model, "module") else model
-                #         )  # Take care of distributed/parallel training
-                #         model_to_save.save_pretrained(output_dir)
-                #         tokenizer.save_pretrained(output_dir)
-                #         if args.task_name != "dna690":
-                #             torch.save(args, os.path.join(output_dir, "training_args.bin"))
-
-                # ###save highest sensitivity
-                # if results['sens'] > best_sens and results['spec'] >= 0.8:
-                #     best_sens = results['sens']
-                #     best_sens_acc = results['acc']
-                #     best_sens_spec = results['spec']
-                #     best_sens_f1 = results['f1']
-                #     # output_eval_file = os.path.join(eval_output_dir, prefix, "eval_results.txt")
-                #     output_dir_dmr = os.path.join(args.output_dir, args.dmr, "best_sensitivity")
-                #     if not os.path.exists(output_dir_dmr):
-                #         os.makedirs(output_dir_dmr)
-                #     output_eval_file = os.path.join(output_dir_dmr, "eval_results.txt")
-                #     with open(output_eval_file, "a") as writer:
-                #         if args.task_name[:3] == "dna":
-                #             eval_result = args.data_dir.split('/')[-1] + " "
-                #         else:
-                #             eval_result = ""
-                #         logger.info("***** Eval results *****")
-                #         # for key in sorted(result.keys()):
-                #         #     logger.info("  %s = %s", key, str(result[key]))
-                #         #     eval_result = eval_result + str(result[key])[:5] + " "
-                #         # writer.write(n + '\t' + eval_result + "\n")
-                #         for key in ['acc', 'spec', 'sens']:
-                #             logger.info("  %s = %s", key, str(results[key]))
-                #             eval_result = eval_result + str(results[key])[:5] + "\t"
-                #         writer.write(args.dmr + '\t' + eval_result + "\n")
-                #     # checkpoint_prefix = "checkpoint"
-                #     # Save model checkpoint
-                #     # output_dir = os.path.join(args.output_dir, "checkpoint-{}".format(global_step))
-                #     output_dir = os.path.join(args.output_dir, "{}".format(args.dmr), "best_sensitivity")
-                #     if not os.path.exists(output_dir):
-                #         os.makedirs(output_dir)
-                #     model_to_save = (
-                #         model.module if hasattr(model, "module") else model
-                #     )  # Take care of distributed/parallel training
-                #     model_to_save.save_pretrained(output_dir)
-                #     tokenizer.save_pretrained(output_dir)
-                #     # logger.info("Saving model checkpoint to %s", output_dir)
-                #     # _rotate_checkpoints(args, checkpoint_prefix)
-                #     if args.task_name != "dna690":
-                #         torch.save(args, os.path.join(output_dir, "training_args.bin"))
-                #         # torch.save(optimizer.state_dict(), os.path.join(output_dir, "optimizer.pt"))
-                #         # torch.save(scheduler.state_dict(), os.path.join(output_dir, "scheduler.pt"))
-                #     # logger.info("Saving optimizer and scheduler states to %s", output_dir)
-                #
-                # elif results['sens'] == best_sens and results['spec'] >= best_sens_spec and results[
-                #     'spec'] >= 0.8:
-                #     best_sens = results['sens']
-                #     best_sens_acc = results['acc']
-                #     best_sens_spec = results['spec']
-                #     best_sens_f1 = results['f1']
-                #     # output_eval_file = os.path.join(eval_output_dir, prefix, "eval_results.txt")
-                #     output_dir_dmr = os.path.join(args.output_dir, args.dmr, "best_sensitivity")
-                #     if not os.path.exists(output_dir_dmr):
-                #         os.makedirs(output_dir_dmr)
-                #     output_eval_file = os.path.join(output_dir_dmr, "eval_results.txt")
-                #     with open(output_eval_file, "a") as writer:
-                #         if args.task_name[:3] == "dna":
-                #             eval_result = args.data_dir.split('/')[-1] + " "
-                #         else:
-                #             eval_result = ""
-                #         logger.info("***** Eval results *****")
-                #         for key in ['acc', 'spec', 'sens']:
-                #             logger.info("  %s = %s", key, str(results[key]))
-                #             eval_result = eval_result + str(results[key])[:5] + "\t"
-                #         writer.write(args.dmr + '\t' + eval_result + "\n")
-                #         output_dir = os.path.join(args.output_dir, "{}".format(args.dmr), "best_sensitivity")
-                #         if not os.path.exists(output_dir):
-                #             os.makedirs(output_dir)
-                #         model_to_save = (
-                #             model.module if hasattr(model, "module") else model
-                #         )  # Take care of distributed/parallel training
-                #         model_to_save.save_pretrained(output_dir)
-                #         tokenizer.save_pretrained(output_dir)
-                #         if args.task_name != "dna690":
-                #             torch.save(args, os.path.join(output_dir, "training_args.bin"))
-                #
-                # ###save highest accuracy
-                # if results['acc'] >= best_acc and results['spec'] >= 0.8 and results['sens'] >= 0.8:
-                #     best_acc = results['acc']
-                #     best_acc_sens = results['sens']
-                #     best_acc_spec = results['spec']
-                #     best_acc_f1 = results['f1']
-                #     # output_eval_file = os.path.join(eval_output_dir, prefix, "eval_results.txt")
-                #     output_dir_dmr = os.path.join(args.output_dir, args.dmr, "best_accuracy")
-                #     if not os.path.exists(output_dir_dmr):
-                #         os.makedirs(output_dir_dmr)
-                #     output_eval_file = os.path.join(output_dir_dmr, "eval_results.txt")
-                #     with open(output_eval_file, "a") as writer:
-                #         if args.task_name[:3] == "dna":
-                #             eval_result = args.data_dir.split('/')[-1] + " "
-                #         else:
-                #             eval_result = ""
-                #         logger.info("***** Eval results *****")
-                #         # for key in sorted(result.keys()):
-                #         #     logger.info("  %s = %s", key, str(result[key]))
-                #         #     eval_result = eval_result + str(result[key])[:5] + " "
-                #         # writer.write(n + '\t' + eval_result + "\n")
-                #         for key in ['acc', 'spec', 'sens']:
-                #             logger.info("  %s = %s", key, str(results[key]))
-                #             eval_result = eval_result + str(results[key])[:5] + "\t"
-                #         writer.write(args.dmr + '\t' + eval_result + "\n")
-                #     # checkpoint_prefix = "checkpoint"
-                #     # Save model checkpoint
-                #     # output_dir = os.path.join(args.output_dir, "checkpoint-{}".format(global_step))
-                #     output_dir = os.path.join(args.output_dir, "{}".format(args.dmr), "best_accuracy")
-                #     if not os.path.exists(output_dir):
-                #         os.makedirs(output_dir)
-                #     model_to_save = (
-                #         model.module if hasattr(model, "module") else model
-                #     )  # Take care of distributed/parallel training
-                #     model_to_save.save_pretrained(output_dir)
-                #     tokenizer.save_pretrained(output_dir)
-                #     # logger.info("Saving model checkpoint to %s", output_dir)
-                #     # _rotate_checkpoints(args, checkpoint_prefix)
-                #     if args.task_name != "dna690":
-                #         torch.save(args, os.path.join(output_dir, "training_args.bin"))
-                #         # torch.save(optimizer.state_dict(), os.path.join(output_dir, "optimizer.pt"))
-                #         # torch.save(scheduler.state_dict(), os.path.join(output_dir, "scheduler.pt"))
-                #     # logger.info("Saving optimizer and scheduler states to %s", output_dir)
-                #
-                # ###save highest F1 score
-                # if results['f1'] >= best_f1:
-                #     best_f1 = results['f1']
-                #     best_f1_sens = results['sens']
-                #     best_f1_spec = results['spec']
-                #     best_f1_acc = results['acc']
-                #     # output_eval_file = os.path.join(eval_output_dir, prefix, "eval_results.txt")
-                #     output_dir_dmr = os.path.join(args.output_dir, args.dmr, "best_f1_score")
-                #     if not os.path.exists(output_dir_dmr):
-                #         os.makedirs(output_dir_dmr)
-                #     output_eval_file = os.path.join(output_dir_dmr, "eval_results.txt")
-                #     with open(output_eval_file, "a") as writer:
-                #         if args.task_name[:3] == "dna":
-                #             eval_result = args.data_dir.split('/')[-1] + " "
-                #         else:
-                #             eval_result = ""
-                #         logger.info("***** Eval results *****")
-                #         # for key in sorted(result.keys()):
-                #         #     logger.info("  %s = %s", key, str(result[key]))
-                #         #     eval_result = eval_result + str(result[key])[:5] + " "
-                #         # writer.write(n + '\t' + eval_result + "\n")
-                #         for key in ['acc', 'spec', 'sens']:
-                #             logger.info("  %s = %s", key, str(results[key]))
-                #             eval_result = eval_result + str(results[key])[:5] + "\t"
-                #         writer.write(args.dmr + '\t' + eval_result + "\n")
-                #     # checkpoint_prefix = "checkpoint"
-                #     # Save model checkpoint
-                #     # output_dir = os.path.join(args.output_dir, "checkpoint-{}".format(global_step))
-                #     output_dir = os.path.join(args.output_dir, "{}".format(args.dmr), "best_f1_score")
-                #     if not os.path.exists(output_dir):
-                #         os.makedirs(output_dir)
-                #     model_to_save = (
-                #         model.module if hasattr(model, "module") else model
-                #     )  # Take care of distributed/parallel training
-                #     model_to_save.save_pretrained(output_dir)
-                #     tokenizer.save_pretrained(output_dir)
-                #     # logger.info("Saving model checkpoint to %s", output_dir)
-                #     # _rotate_checkpoints(args, checkpoint_prefix)
-                #     if args.task_name != "dna690":
-                #         torch.save(args, os.path.join(output_dir, "training_args.bin"))
-                #         # torch.save(optimizer.state_dict(), os.path.join(output_dir, "optimizer.pt"))
-                #         # torch.save(scheduler.state_dict(), os.path.join(output_dir, "scheduler.pt"))
-                #     # logger.info("Saving optimizer and scheduler states to %s", output_dir)
+               
 
                 logs["best_spec"] = best_spec
                 logs["best_spec_acc"] = best_spec_acc
                 logs["best_spec_sens"] = best_spec_sens
-                # logs["best_spec_f1"] = best_spec_f1
-
-                # logs["best_sens"] = best_sens
-                # logs["best_sens_acc"] = best_sens_acc
-                # logs["best_sens_spec"] = best_sens_spec
-                # logs["best_sens_f1"] = best_sens_f1
-                #
-                # logs["best_acc"] = best_acc
-                # logs["best_acc_spec"] = best_acc_spec
-                # logs["best_acc_sens"] = best_acc_sens
-                # logs["best_acc_f1"] = best_acc_f1
-                #
-                # logs["best_f1"] = best_f1
-                # logs["best_f1_acc"] = best_f1_acc
-                # logs["best_f1_sens"] = best_f1_sens
-                # logs["best_f1_spec"] = best_f1_spec
+               
 
 
                 loss_scalar = (tr_loss - logging_loss) / args.logging_steps
@@ -855,25 +601,7 @@ def evaluate(args, model, tokenizer, prefix="", evaluate=True):
             eval_output_dir = args.result_dir
             if not os.path.exists(args.result_dir):
                 os.makedirs(args.result_dir)
-        # output_eval_file = os.path.join(eval_output_dir, prefix, "eval_results.txt")
-        #
-        #
-        # with open(output_eval_file, "a") as writer:
-        #
-        #     if args.task_name[:3] == "dna":
-        #         eval_result = args.data_dir.split('/')[-1] + " "
-        #     else:
-        #         eval_result = ""
-        #
-        #     logger.info("***** Eval results {} *****".format(prefix))
-        #     # for key in sorted(result.keys()):
-        #     #     logger.info("  %s = %s", key, str(result[key]))
-        #     #     eval_result = eval_result + str(result[key])[:5] + " "
-        #     # writer.write(n + '\t' + eval_result + "\n")
-        #     for key in ['acc', 'spec', 'sens']:
-        #         logger.info("  %s = %s", key, str(result[key]))
-        #         eval_result = eval_result + str(result[key])[:5] + "\t"
-        #     writer.write(n + '\t' + eval_result + "\n")
+     
 
 
     if args.do_ensemble_pred:
@@ -1203,22 +931,8 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
 
 def main(n):
     args = Config()
-    # args.csv = './predict/prediction_BERT_{}.csv'.format(n)
     args.dmr = n
-    # args.data_dir = './data/{}'.format(n)
-    args.data_dir = './ft_data_for_train/esophagus/all_data/{}'.format(n)
-    # args.weight = weight
-    # args.output_dir = output_dir
-    # m_l = int(n.split('_')[2]) - int(n.split('_')[1]) + 1
-    # if m_l >= 300:
-    #     args.max_seq_length = 300
-    # else:
-    #     args.max_seq_length = m_l
-    # args.data_dir = './ft_merged_data/5/'
-    # args.data_dir = '/media/win/public/model/BERT/classification/sample_data/ft/HCC/{}/2'.format(n)
-    # args.data_dir = './spec_test/{}'.format(n)
-    # args.data_dir = './new_data/{}/2'.format(n)
-
+    args.data_dir = ''
     if args.should_continue:
         sorted_checkpoints = _sorted_checkpoints(args)
         if len(sorted_checkpoints) == 0:
@@ -1259,20 +973,7 @@ def main(n):
         args.n_gpu = 1
     args.device = device
 
-    # # Setup logging
-    # logging.basicConfig(
-    #     format="%(asctime)s - %(levelname)s - %(name)s -   %(message)s",
-    #     datefmt="%m/%d/%Y %H:%M:%S",
-    #     level=logging.INFO if args.local_rank in [-1, 0] else logging.WARN,
-    # )
-    # logger.warning(
-    #     "Process rank: %s, device: %s, n_gpu: %s, distributed training: %s, 16-bits training: %s",
-    #     args.local_rank,
-    #     device,
-    #     args.n_gpu,
-    #     bool(args.local_rank != -1),
-    #     args.fp16,
-    # )
+
 
     # Set seed
     set_seed(args)
@@ -1340,28 +1041,7 @@ def main(n):
         global_step, tr_loss = train(args, train_dataset, model, tokenizer)
         logger.info(" global_step = %s, average loss = %s", global_step, tr_loss)
 
-    # # Saving best-practices: if you use defaults names for the model, you can reload it using from_pretrained()
-    # if args.do_train and (args.local_rank == -1 or torch.distributed.get_rank() == 0) and args.task_name != "dna690":
-    #     # Create output directory if needed
-    #     if not os.path.exists(args.output_dir) and args.local_rank in [-1, 0]:
-    #         os.makedirs(args.output_dir)
-    #
-    #     # logger.info("Saving model checkpoint to %s", args.output_dir)
-    #     # Save a trained model, configuration and tokenizer using `save_pretrained()`.
-    #     # They can then be reloaded using `from_pretrained()`
-    #     model_to_save = (
-    #         model.module if hasattr(model, "module") else model
-    #     )  # Take care of distributed/parallel training
-    #     model_to_save.save_pretrained(args.output_dir)
-    #     tokenizer.save_pretrained(args.output_dir)
-    #
-    #     # Good practice: save your training arguments together with the trained model
-    #     torch.save(args, os.path.join(args.output_dir, "training_args.bin"))
-    #
-    #     # Load a trained model and vocabulary that you have fine-tuned
-    #     model = model_class.from_pretrained(args.output_dir)
-    #     tokenizer = tokenizer_class.from_pretrained(args.output_dir)
-    #     model.to(args.device)
+   
 
     # Evaluation
     results = {}
@@ -1501,14 +1181,7 @@ def main(n):
         root_path = args.result_dir.replace(args.result_dir.split('/')[-1], '')
         if not os.path.exists(root_path):
             os.makedirs(root_path)
-        # data_path = os.path.join(root_path, "data")
-        # pred_path = os.path.join(root_path, "pred")
-        # if not os.path.exists(data_path):
-        #     os.makedirs(data_path)
-        # if not os.path.exists(pred_path):
-        #     os.makedirs(pred_path)
-        # np.save(os.path.join(data_path, args.result_dir.split('/')[-1]), data)
-        # np.save(os.path.join(pred_path, "pred_results.npy", all_probs[:,1]))
+
         np.save(args.result_dir, data)
         ensemble_results = compute_metrics(eval_task, all_preds, out_label_ids, all_probs[:, 1])
         logger.info("***** Ensemble results {} *****".format(prefix))
