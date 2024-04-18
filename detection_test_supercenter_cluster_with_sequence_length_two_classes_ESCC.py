@@ -99,19 +99,19 @@ TOKEN_ID_GROUP = ["bert", "dnalong", "dnalongcat", "xlnet", "albert"]
 
 class Config(object):
     def __init__(self):
-        self.data_dir = "./prediction_data/chr8_87081564_87081761/5/"
+        self.data_dir = ""
         self.model_type = 'dna'
         self.n_process = 1
         self.should_continue = False
-        self.model_name_or_path = './output/'
+        self.model_name_or_path = ''
         self.task_name = 'dnaprom'
-        self.output_dir = './output/'
+        self.output_dir = ''
         self.visualize_data_dir = None
-        self.result_dir = './result'
+        self.result_dir = ''
         self.config_name = ''
         self.tokenizer_name = ''
         self.cache_dir = ''
-        self.predict_dir = './predict/cluster_predict'
+        self.predict_dir = ''
         self.max_seq_length = 300
         self.do_train = False
         self.do_eval = False
