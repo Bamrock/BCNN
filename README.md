@@ -45,7 +45,7 @@ Add --fp16 tag if you want to perfrom mixed precision. (You have to install the 
 python -m torch.distributed.launch --nproc_per_node= \
     --nnodes= --node_rank= --master_addr= \
     --master_port= \
-    ESCC_fine_tuning_test_for_DMR_cluster_high_specificity_with_pretrain_two_classification.py \
+    finetune.py \
 ```
 
 Add --fp16 tag if you want to perfrom mixed precision. (You have to install the 'apex' from source first).
@@ -55,7 +55,7 @@ Add --fp16 tag if you want to perfrom mixed precision. (You have to install the 
 
 ```
 
-python detection_test_supercenter_cluster_with_sequence_length_two_classes_ESCC.py
+python prediction.py
 ```
 Add --fp16 tag if you want to perfrom mixed precision. (You have to install the 'apex' from source first).
 
