@@ -532,25 +532,7 @@ def evaluate(args, model, tokenizer, prefix="", evaluate=True):
             eval_output_dir = args.result_dir
             if not os.path.exists(args.result_dir):
                 os.makedirs(args.result_dir)
-        # output_eval_file = os.path.join(eval_output_dir, prefix, "eval_results.txt")
-        #
-        #
-        # with open(output_eval_file, "a") as writer:
-        #
-        #     if args.task_name[:3] == "dna":
-        #         eval_result = args.data_dir.split('/')[-1] + " "
-        #     else:
-        #         eval_result = ""
-        #
-        #     logger.info("***** Eval results {} *****".format(prefix))
-        #     # for key in sorted(result.keys()):
-        #     #     logger.info("  %s = %s", key, str(result[key]))
-        #     #     eval_result = eval_result + str(result[key])[:5] + " "
-        #     # writer.write(n + '\t' + eval_result + "\n")
-        #     for key in ['acc', 'spec', 'sens']:
-        #         logger.info("  %s = %s", key, str(result[key]))
-        #         eval_result = eval_result + str(result[key])[:5] + "\t"
-        #     writer.write(n + '\t' + eval_result + "\n")
+       
 
 
     if args.do_ensemble_pred:
@@ -760,15 +742,7 @@ def visualize(args, model, tokenizer, kmer, prefix=""):
                 preds[index * batch_size:index * batch_size + len(batch[0]), :] = logits.detach().cpu().numpy()
                 attention_scores[index * batch_size:index * batch_size + len(batch[0]), :, :,
                 :] = attention.cpu().numpy()
-                # if preds is None:
-                #     preds = logits.detach().cpu().numpy()
-                # else:
-                #     preds = np.concatenate((preds, logits.detach().cpu().numpy()), axis=0)
 
-                # if attention_scores is not None:
-                #     attention_scores = np.concatenate((attention_scores, attention.cpu().numpy()), 0)
-                # else:
-                #     attention_scores = attention.cpu().numpy()
 
         if args.task_name != "dnasplice":
             probs = softmax(torch.tensor(preds, dtype=torch.float32))[:, 1].numpy()
@@ -805,38 +779,6 @@ def visualize(args, model, tokenizer, kmer, prefix=""):
 
     return scores, probs
 
-# class PredDataset(Dataset):
-#     def __init__(self, csv_file, transform=None):
-#         self.labels_frame = np.array(pd.read_csv(csv_file, skiprows=1, sep=',', header=None))
-#         # self.root_dir = root_dir
-#         self.transform = transform
-#
-#     def __len__(self):
-#         return len(self.labels_frame)
-#
-#     def __getitem__(self, idx):
-#         img_path = self.labels_frame[idx, 0]
-#         # print(img_path)
-#         # img_name = img_path.split('/')[-1]
-#         img = cv2.imread(img_path)
-#         # print("img.shape", img.shape)
-#         img = img / 255
-#
-#         lengths = img.shape[1]
-#         pad_l = int((150 - lengths)/2)
-#         pad_r = 150 - (lengths+pad_l)
-#         img = cv2.copyMakeBorder(img, 1, 1, pad_l, pad_r, cv2.BORDER_CONSTANT, value=(0,0,0))
-#         img = img.transpose(2, 1, 0)
-#         # print(img.shape)
-#
-#         label = np.array([self.labels_frame[idx, 1]])
-#         # print(label)
-#         train_sample = {'image': img, 'label': label, 'img_name':img_path}
-#
-#         if self.transform:
-#             train_sample = self.transform(train_sample)
-#         return train_sample
-
 
 class MyDataSet(Dataset):
     def __init__(self, all_input_ids, all_attention_mask, all_token_type_ids, all_labels,all_read_id, all_DMR, all_sample_id, all_group, all_read_merged):
@@ -871,11 +813,6 @@ class MyDataSet(Dataset):
         # return self.length
         return len(self.all_labels)
 
-# class ToTensor(object):
-#
-#     def __call__(self, sample):
-#         image, labels,name = sample['image'], sample['label'], sample['img_name']
-#         return {'image': torch.from_numpy(image), 'label': torch.LongTensor(labels),'img_name':name}
 
 def load_and_cache_examples(args, task, tokenizer, evaluate=False):
     if args.local_rank not in [-1, 0] and not evaluate:
@@ -883,16 +820,7 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
 
     processor = processors[task]()
     output_mode = output_modes[task]
-    # # Load data features from cache or dataset file
-    # cached_features_file = os.path.join(
-    #     args.data_dir,
-    #     "cached_{}_{}_{}_{}".format(
-    #         "dev" if evaluate else "train",
-    #         list(filter(None, args.model_name_or_path.split("/"))).pop(),
-    #         str(args.max_seq_length),
-    #         str(task),
-    #     ),
-    # )
+   
     if args.do_predict:
         cached_features_file = os.path.join(
             args.data_dir,
@@ -902,14 +830,7 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
                 str(task),
             ),
         )
-        # cached_features_file = os.path.join(
-        #     args.data_dir,
-        #     "cached_{}_{}_{}".format(
-        #         "dev" if evaluate else "train",
-        #         str(args.max_seq_length),
-        #         str(task),
-        #     ),
-        # )
+
     if os.path.exists(cached_features_file) and not args.overwrite_cache:
         # logger.info("Loading features from cached file %s", cached_features_file)
         features = torch.load(cached_features_file)
@@ -1009,24 +930,15 @@ def load_and_cache_examples(args, task, tokenizer, evaluate=False):
 
 def main(n, predict_dir):
     args = Config()
-    args.csv = 'all_training_data_prediction_CNN_BERT_{}.csv'.format(n)
-    # args.dmr = n
-    # args.model_name_or_path = './fine_tuning_model/BERT_for_paper/{}/best_specificity'.format(n)
-    # args.output_dir = './fine_tuning_model/BERT_for_paper/{}/best_specificity/'.format(n)
-    # args.model_name_or_path = './fine_tuning_model/dmr_reduce_reviewer/one_fourth/{}/best_specificity'.format(n) ####ESCC
-    args.model_name_or_path = './fine_tuning_model/esophagus_paper/add_4_healthy_10cluster/{}/best_specificity'.format(n)
-    args.output_dir = './fine_tuning_model/esophagus_paper/add_4_healthy_10cluster/{}/best_specificity/'.format(n)
-    # args.data_dir = './prediction_for_cluster_data/BERT_for_paper/{}/5/'.format(n)
-    # args.data_dir = './prediction_for_cluster_data/HCC_model_comparison/comparison_based_on_reviewer/{}/5/'.format(n)
-    args.data_dir = './esophagus/prediction_data/all_train_data/add_4_healthy_10cluster/{}/5/'.format(n)
+    args.csv = ''
+   
+    args.model_name_or_path = ''
+    args.output_dir = ''
+
+    args.data_dir = ''
 
     args.predict_dir = predict_dir
-    # m_l = int(n.split('_')[2]) - int(n.split('_')[1]) + 1
-    # if m_l >= 300:
-    #     args.max_seq_length = 300
-    # else:
-    #     args.max_seq_length = m_l
-    # args.data_dir = '/media/win/public/model/BERT/classification/sample_data/ft/HCC/{}/2'.format(n)
+   
 
     if args.should_continue:
         sorted_checkpoints = _sorted_checkpoints(args)
@@ -1068,20 +980,6 @@ def main(n, predict_dir):
         args.n_gpu = 1
     args.device = device
 
-    # # Setup logging
-    # logging.basicConfig(
-    #     format="%(asctime)s - %(levelname)s - %(name)s -   %(message)s",
-    #     datefmt="%m/%d/%Y %H:%M:%S",
-    #     level=logging.INFO if args.local_rank in [-1, 0] else logging.WARN,
-    # )
-    # logger.warning(
-    #     "Process rank: %s, device: %s, n_gpu: %s, distributed training: %s, 16-bits training: %s",
-    #     args.local_rank,
-    #     device,
-    #     args.n_gpu,
-    #     bool(args.local_rank != -1),
-    #     args.fp16,
-    # )
 
     # Set seed
     set_seed(args)
@@ -1310,14 +1208,7 @@ def main(n, predict_dir):
         root_path = args.result_dir.replace(args.result_dir.split('/')[-1], '')
         if not os.path.exists(root_path):
             os.makedirs(root_path)
-        # data_path = os.path.join(root_path, "data")
-        # pred_path = os.path.join(root_path, "pred")
-        # if not os.path.exists(data_path):
-        #     os.makedirs(data_path)
-        # if not os.path.exists(pred_path):
-        #     os.makedirs(pred_path)
-        # np.save(os.path.join(data_path, args.result_dir.split('/')[-1]), data)
-        # np.save(os.path.join(pred_path, "pred_results.npy", all_probs[:,1]))
+        
         np.save(args.result_dir, data)
         ensemble_results = compute_metrics(eval_task, all_preds, out_label_ids, all_probs[:, 1])
         logger.info("***** Ensemble results {} *****".format(prefix))
@@ -1335,20 +1226,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
     n = args.dmr
     predict_dir = args.output
-    # csv = args.dmr
-    # list = ['chr10_42093958_42094071']
-    # files = os.listdir("/nas/users/win/projects/BERT_test/prediction_data")
-    # df = pd.read_csv("./CSV_split/{}.csv".format(csv))
-    # df = pd.read_csv("./CSV_split/dmr_cluster.csv")
-    # files = df["DMR"].tolist()
-    # preds_file = ["train", "blind_test"]
-    # preds_file = ['prediction_for_cluster_data']
-
-    # for n in files:
-    # print(n)
-    # for j in preds_file:
-    # tmp_dir = './prediction_for_cluster_data/20211216_three_classification/{}/5/'.format(n)
-    # tmp = os.path.join(tmp_dir, "pred.tsv")
-    # if not os.path.exists(tmp) or len(os.listdir(tmp_dir)) == 0:
-    #     continue
     main(n, predict_dir)
