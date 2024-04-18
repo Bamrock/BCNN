@@ -1,7 +1,7 @@
 # BCNN
 Here we present the codes of BCNN.
 
-This repository includes: source codes of pre-trainng, finetune and data samples. This package is still under development, as more features will be included gradually.
+This repository includes: source codes of pre-trainng, finetune, prediction, visualization and data samples. This package is still under development, as more features will be included gradually.
 
 ## Requirements and Setup
 Python version >= 3.6
@@ -100,7 +100,7 @@ Add --fp16 tag if you want to perfrom mixed precision. (You have to install the 
 
 ```
 
-python prediction.py \
+python detection_test_supercenter_cluster_with_sequence_length_two_classes_ESCC.py \
     --model_name_or_path $MODEL_PATH \
     --task_name dnaprom \
     --do_predict \
@@ -117,8 +117,8 @@ Add --fp16 tag if you want to perfrom mixed precision. (You have to install the 
 
 ```
 
-python BERT_visualization.py  # Visualizing Convolutional Kernels in BCNN
-python CNN_series_visualization.py # Visualizing Convolutional Kernels in CNN+LSTM, CNN+GRU
+python BERT_visualization.py  # Visualization of Convolutional Kernels in BCNN
+python CNN_series_visualization.py # Visualization of Convolutional Kernels in CNN+LSTM, CNN+GRU
 
 ```
 
