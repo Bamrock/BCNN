@@ -103,9 +103,9 @@ class Config(object):
         self.model_type = 'dna'
         self.n_process = 20
         self.should_continue = False
-        self.model_name_or_path = './model_saved/final_5_methy_mask_ML/checkpoint-185000/'
+        self.model_name_or_path = ''
         self.task_name = 'dnaprom'
-        self.output_dir = './fine_tuning_model/esophagus_paper/add_4_healthy_10cluster/'
+        self.output_dir = ''
         self.visualize_data_dir = None
         self.result_dir = './result'
         self.config_name = './transformers/dnabert-config/bert-config-5/config.json'
