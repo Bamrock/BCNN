@@ -72,7 +72,7 @@ python CNN_series_visualization.py # Visualization of Convolutional Kernels in C
 
 ```
 
-sh visualization/visual.py  # Visualization of Attention weights in BCNN
+sh attention_visualization/visual.py  # Visualization of Attention weights in BCNN
 
 ```
 
