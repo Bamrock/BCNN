@@ -68,6 +68,14 @@ python CNN_series_visualization.py # Visualization of Convolutional Kernels in C
 
 ```
 
+## Attention Visualization
+
+```
+
+sh visualization/visual.py  # Visualization of Attention weights in BCNN
+
+```
+
 
 Our repository references the code of DNABERT: https://github.com/jerryji1993/DNABERT
 
